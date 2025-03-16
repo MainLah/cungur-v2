@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.12.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.2",
+    "yup": "^1.6.1"
+  },
+  "name": "cungur-v2",
+  "version": "1.0.0",
+  "description": "Cungur V2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.0",
+    "@types/mongoose": "^5.11.96"
+  }
+}
