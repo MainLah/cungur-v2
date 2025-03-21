@@ -45,7 +45,7 @@ export default {
     const { username, password } = req.body as unknown as TLogin;
 
     try {
-      const user = await userModel.findOne({ username });
+      const user = await userModel.findOne({ username: username });
       if (!user) {
         res.status(403).json({
           message: "User not found",
