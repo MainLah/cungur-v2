@@ -1,22 +1,22 @@
-import express from 'express';
-import router from './routes/api';
-import { connectDb } from './utils/database';
-import bodyParser from 'body-parser';
+import express from "express";
+import router from "./routes/api";
+import { connectDb } from "./utils/database";
+import bodyParser from "body-parser";
 
 async function init() {
-    const db = await connectDb(); 
-    console.log(`Database status: ${db}`);
+  const db = await connectDb();
+  console.log(`Database status: ${db}`);
 
-    const app = express();
-    app.use(bodyParser.json());
-    
-    app.use('/api', router);
+  const app = express();
+  app.use(bodyParser.json());
 
-    const port = 3000;
+  app.use("/api", router);
 
-    app.listen(port, () => {
-        console.log(`Server running on port ${port}`);
-    });
+  const port = 3000;
+
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
 }
 
 init();
