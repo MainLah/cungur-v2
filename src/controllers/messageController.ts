@@ -4,7 +4,8 @@ import messageModel from "../models/messageModel";
 export default {
   async getMessages(req: Request, res: Response) {
     try {
-      const messages = await messageModel.find({ username: req.body.username });
+      const username = req.body.username;
+      const messages = await messageModel.find({ username: username });
       if (messages.length === 0) {
         res.status(200).json({
           message: "No messages found",
