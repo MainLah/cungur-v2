@@ -4,11 +4,18 @@ import messageModel from "../models/messageModel";
 export default {
   async getMessages(req: Request, res: Response) {
     try {
-      const messages = await messageModel.find();
-      res.status(200).json({
-        message: "Messages fetched successfully",
-        data: messages,
-      });
+      const messages = await messageModel.find({ username: req.body.username });
+      if (messages.length === 0) {
+        res.status(200).json({
+          message: "No messages found",
+          data: [],
+        });
+      } else {
+        res.status(200).json({
+          message: "Messages fetched successfully",
+          data: messages,
+        });
+      }
     } catch (error) {
       res.status(403).json({
         message: "Error fetching messages",
@@ -17,10 +24,15 @@ export default {
     }
   },
   async createMessage(req: Request, res: Response) {
+    const username = req.body.username;
     const message = req.body.message;
     const timestamp = new Date().toDateString();
     try {
-      const newMessage = await messageModel.create({ message, timestamp });
+      const newMessage = await messageModel.create({
+        username,
+        message,
+        timestamp,
+      });
       res.status(200).json({
         message: "Message created successfully",
         data: newMessage,

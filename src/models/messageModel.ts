@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 type Message = {
+  username: string;
   message: string;
   timestamp: Date;
 };
@@ -8,6 +9,7 @@ type Message = {
 const Schema = mongoose.Schema;
 
 const MessageSchema = new Schema<Message>({
+  username: { type: String, required: true },
   message: { type: String, required: true },
   timestamp: { type: Date, default: Date.now },
 });
