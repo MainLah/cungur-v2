@@ -15,7 +15,7 @@ type TLogin = {
 };
 
 const validateRegSchema = Yup.object().shape({
-  username: Yup.string().required(),
+  username: Yup.string().required().matches(/^\S+$/gm, "No spaces allowed"),
   password: Yup.string().required(),
   confirmPassword: Yup.string()
     .required()
