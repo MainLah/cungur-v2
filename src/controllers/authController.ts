@@ -23,7 +23,7 @@ const validateRegSchema = Yup.object().shape({
 });
 
 export default {
-  async register(req: Request, res: Response) {
+  async register(req: Request, res: Response): Promise<any> {
     const { username, password, confirmPassword } =
       req.body as unknown as TRegister;
     try {
@@ -31,17 +31,17 @@ export default {
 
       const user = await userModel.findOne({ username: username });
       if (user) {
-        res.status(403).json({
+        return res.status(403).json({
           message: "User is already registered, please login instead",
           data: null,
         });
-      } else {
-        const newUser = await userModel.create({ username, password });
-        res.status(200).json({
-          message: "User registered successfully",
-          data: newUser,
-        });
       }
+
+      const newUser = await userModel.create({ username, password });
+      res.status(200).json({
+        message: "User registered successfully",
+        data: newUser,
+      });
     } catch (error) {
       const err = error as unknown as Error;
       res.status(403).json({
@@ -50,20 +50,20 @@ export default {
       });
     }
   },
-  async login(req: Request, res: Response) {
+  async login(req: Request, res: Response): Promise<any> {
     const { username, password } = req.body as unknown as TLogin;
 
     try {
       const user = await userModel.findOne({ username: username });
       if (!user) {
-        res.status(403).json({
+        return res.status(403).json({
           message: "User not found",
           data: null,
         });
       }
 
       if (user?.password !== encrypt(password)) {
-        res.status(403).json({
+        return res.status(403).json({
           message: "Invalid password",
           data: null,
         });
