@@ -15,7 +15,7 @@ type TLogin = {
 };
 
 const validateRegSchema = Yup.object().shape({
-  username: Yup.string().required(),
+  username: Yup.string().required().matches(/^\S+$/gm, "No spaces allowed"),
   password: Yup.string().required(),
   confirmPassword: Yup.string()
     .required()
@@ -28,11 +28,20 @@ export default {
       req.body as unknown as TRegister;
     try {
       await validateRegSchema.validate({ username, password, confirmPassword });
-      const newUser = await userModel.create({ username, password });
-      res.status(200).json({
-        message: "User registered successfully",
-        data: newUser,
-      });
+
+      const user = await userModel.findOne({ username: username });
+      if (user) {
+        res.status(403).json({
+          message: "User is already registered, please login instead",
+          data: null,
+        });
+      } else {
+        const newUser = await userModel.create({ username, password });
+        res.status(200).json({
+          message: "User registered successfully",
+          data: newUser,
+        });
+      }
     } catch (error) {
       const err = error as unknown as Error;
       res.status(403).json({
