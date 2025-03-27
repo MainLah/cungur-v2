@@ -18,8 +18,9 @@ export default {
         });
       }
     } catch (error) {
+      const err = error as unknown as Error;
       res.status(403).json({
-        message: "Error fetching messages",
+        message: err.message,
         data: null,
       });
     }
@@ -53,8 +54,31 @@ export default {
         data: newMessage,
       });
     } catch (error) {
+      const err = error as unknown as Error;
       res.status(403).json({
-        message: "Error creating message",
+        message: err.message,
+        data: null,
+      });
+    }
+  },
+  async deleteMessage(req: Request, res: Response): Promise<any> {
+    const messageId = req.body._id;
+    try {
+      const message = await messageModel.findByIdAndDelete(messageId);
+      if (!message) {
+        return res.status(403).json({
+          message: "Message not found",
+          data: null,
+        });
+      }
+      res.status(200).json({
+        message: "Message deleted",
+        data: message,
+      });
+    } catch (error) {
+      const err = error as unknown as Error;
+      res.status(403).json({
+        message: err.message,
         data: null,
       });
     }
