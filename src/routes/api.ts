@@ -8,5 +8,7 @@ router.post("/auth/login", authController.login);
 router.post("/auth/register", authController.register);
 router.get("/messages", messageController.getMessages);
 router.post("/create", messageController.createMessage);
+router.post("/delete", messageController.deleteMessage);
+router.post("/update", messageController.updateMessage);
 
 export default router;
