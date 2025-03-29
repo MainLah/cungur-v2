@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { encrypt } from "../utils/encrypt";
 
-type User = {
+export type User = {
   username: string;
   password: string;
 };
