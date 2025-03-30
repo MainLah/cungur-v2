@@ -6,7 +6,7 @@ export interface IReqUser extends Request {
 }
 
 export default (req: Request, res: Response, next: NextFunction): any => {
-  const authorization = req.headers?.authorization;
+  const authorization = req.cookies?.token;
 
   if (!authorization) {
     return res.status(403).json({
@@ -15,16 +15,16 @@ export default (req: Request, res: Response, next: NextFunction): any => {
     });
   }
 
-  const [prefix, token] = authorization.split(" ");
+  // const [prefix, token] = authorization.split(" ");
 
-  if (!(prefix === "Bearer" && token)) {
-    return res.status(403).json({
-      message: "Unauthorized",
-      data: null,
-    });
-  }
+  // if (!(prefix === "Bearer" && token)) {
+  //   return res.status(403).json({
+  //     message: "Unauthorized",
+  //     data: null,
+  //   });
+  // }
 
-  const user = getUserData(token);
+  const user = getUserData(authorization);
 
   if (!user) {
     return res.status(403).json({

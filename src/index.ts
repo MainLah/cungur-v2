@@ -2,6 +2,7 @@ import express from "express";
 import router from "./routes/api";
 import { connectDb } from "./utils/database";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 
 async function init() {
   const db = await connectDb();
@@ -9,6 +10,7 @@ async function init() {
 
   const app = express();
   app.use(bodyParser.json());
+  app.use(cookieParser());
 
   app.use("/api", router);
 
