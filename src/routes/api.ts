@@ -10,7 +10,7 @@ router.post("/auth/register", authController.register);
 // router.get("/auth/me", authMiddleware, authController.me);
 router.get("/messages", authMiddleware, messageController.getMessages);
 router.post("/create", authMiddleware, messageController.createMessage);
-router.post("/delete", authMiddleware, messageController.deleteMessage);
-router.post("/update", authMiddleware, messageController.updateMessage);
+router.post("/delete", messageController.deleteMessage);
+router.post("/update", messageController.updateMessage);
 
 export default router;
