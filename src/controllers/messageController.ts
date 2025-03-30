@@ -1,11 +1,15 @@
 import { Request, Response } from "express";
 import messageModel from "../models/messageModel";
+import { IReqUser } from "../middlewares/authMiddleware";
+import UserModel from "../models/userModel";
 
 export default {
   async getMessages(req: Request, res: Response): Promise<any> {
     try {
-      const username = req.body.username;
-      const messages = await messageModel.find({ username: username });
+      const user = await UserModel.findOne({
+        _id: (req as IReqUser).user?.id,
+      });
+      const messages = await messageModel.find({ username: user?.username });
 
       if (messages.length === 0) {
         return res.status(200).json({
@@ -27,7 +31,9 @@ export default {
     }
   },
   async createMessage(req: Request, res: Response): Promise<any> {
-    const username = req.body.username;
+    const user = await UserModel.findOne({
+      _id: (req as IReqUser).user?.id,
+    });
     const message = req.body.message;
     const timestamp = new Date().toDateString();
 
@@ -47,7 +53,7 @@ export default {
       }
 
       const newMessage = await messageModel.create({
-        username,
+        username: user?.username,
         message,
         timestamp,
       });

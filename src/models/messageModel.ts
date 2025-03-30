@@ -9,7 +9,7 @@ type Message = {
 const Schema = mongoose.Schema;
 
 const MessageSchema = new Schema<Message>({
-  username: { type: String, required: true },
+  username: { type: String, required: true, default: "Error getting username" },
   message: { type: String, required: true },
   timestamp: { type: Date, default: Date.now },
 });
