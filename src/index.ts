@@ -12,13 +12,13 @@ async function init() {
   app.use(bodyParser.json());
   app.use(cookieParser());
 
-  app.use("/api", router);
-  app.use("/", (req, res) => {
+  app.get("/", (req, res) => {
     res.status(200).json({
       message: "Server is running",
       data: null,
     });
   });
+  app.use("/api", router);
 
   const port = 3000;
 
