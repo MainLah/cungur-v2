@@ -75,16 +75,17 @@ export default {
         id: user._id,
       });
 
-      res.cookie("token", token, {
-        httpOnly: true,
-        sameSite: "strict",
-        maxAge: 60 * 60 * 1000,
-      });
-
-      res.status(200).json({
-        message: "Log in success",
-        data: token,
-      });
+      res
+        .cookie("token", token, {
+          httpOnly: true,
+          sameSite: "strict",
+          maxAge: 60 * 60 * 1000,
+        })
+        .status(200)
+        .json({
+          message: "Log in success",
+          data: token,
+        });
     } catch (error) {
       const err = error as unknown as Error;
       res.status(403).json({
@@ -92,6 +93,24 @@ export default {
         data: null,
       });
     }
+  },
+  logout(req: Request, res: Response): any {
+    if (!req.cookies.token) {
+      return res.status(403).json({
+        message: "Error logging out",
+        data: null,
+      });
+    }
+    res
+      .clearCookie("token", {
+        httpOnly: true,
+        sameSite: "strict",
+      })
+      .status(200)
+      .json({
+        message: "Log out success",
+        data: null,
+      });
   },
   // async me(req: IReqUser, res: Response): Promise<any> {
   //   try {
