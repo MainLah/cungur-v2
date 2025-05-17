@@ -3,12 +3,16 @@ import router from "./routes/api";
 import { connectDb } from "./utils/database";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import docs from "./docs/route";
+import cors from "cors";
 
 async function init() {
   const db = await connectDb();
   console.log(`Database status: ${db}`);
 
   const app = express();
+
+  app.use(cors());
   app.use(bodyParser.json());
   app.use(cookieParser());
 
@@ -19,6 +23,7 @@ async function init() {
     });
   });
   app.use("/api", router);
+  docs(app);
 
   const port = 3000;
 

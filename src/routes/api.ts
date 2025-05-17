@@ -11,7 +11,7 @@ router.post("/auth/logout", authController.logout);
 // router.get("/auth/me", authMiddleware, authController.me);
 router.get("/messages", authMiddleware, messageController.getMessages);
 router.post("/create", authMiddleware, messageController.createMessage);
-router.post("/delete", messageController.deleteMessage);
-router.post("/update", messageController.updateMessage);
+router.delete("/delete", messageController.deleteMessage);
+router.patch("/update", messageController.updateMessage);
 
 export default router;
