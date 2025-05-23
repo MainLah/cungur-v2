@@ -3,7 +3,7 @@ import router from "./routes/api";
 import { connectDb } from "./utils/database";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import docs from "./docs/route";
+// import docs from "./docs/route";
 import cors from "cors";
 
 async function init() {
@@ -12,7 +12,12 @@ async function init() {
 
   const app = express();
 
-  app.use(cors());
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+      credentials: true,
+    })
+  );
   app.use(bodyParser.json());
   app.use(cookieParser());
 
@@ -23,7 +28,7 @@ async function init() {
     });
   });
   app.use("/api", router);
-  docs(app);
+  // docs(app);
 
   const port = 3000;
 
