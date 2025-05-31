@@ -78,7 +78,7 @@ export default {
       res
         .cookie("token", token, {
           httpOnly: true,
-          sameSite: "strict",
+          sameSite: "none",
           maxAge: 60 * 60 * 1000,
         })
         .status(200)
@@ -112,21 +112,21 @@ export default {
         data: null,
       });
   },
-  // async me(req: IReqUser, res: Response): Promise<any> {
-  //   try {
-  //     const user = req.user;
-  //     const result = await userModel.findById(user?.id);
+  async me(req: IReqUser, res: Response): Promise<any> {
+    try {
+      const user = req.user;
+      const result = await userModel.findById(user?.id);
 
-  //     res.status(200).json({
-  //       message: "Success get user profile",
-  //       data: result,
-  //     });
-  //   } catch (error) {
-  //     const err = error as unknown as Error;
-  //     res.status(403).json({
-  //       message: err.message,
-  //       data: null,
-  //     });
-  //   }
-  // },
+      res.status(200).json({
+        message: "Success get user profile",
+        data: result,
+      });
+    } catch (error) {
+      const err = error as unknown as Error;
+      res.status(403).json({
+        message: err.message,
+        data: null,
+      });
+    }
+  },
 };

@@ -3,8 +3,8 @@ import router from "./routes/api";
 import { connectDb } from "./utils/database";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import docs from "./docs/route";
-import cors from "cors";
+// import docs from "./docs/route";
+import cors, { CorsOptions } from "cors";
 
 async function init() {
   const db = await connectDb();
@@ -12,7 +12,19 @@ async function init() {
 
   const app = express();
 
-  app.use(cors());
+  const whitelist = ["http://localhost:5173"];
+  const corsOptions: CorsOptions = {
+    origin: function (origin, callback) {
+      if (!origin || whitelist.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  };
+
+  app.use(cors(corsOptions));
   app.use(bodyParser.json());
   app.use(cookieParser());
 
@@ -23,7 +35,7 @@ async function init() {
     });
   });
   app.use("/api", router);
-  docs(app);
+  // docs(app);
 
   const port = 3000;
 

@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/auth/login", authController.login);
 router.post("/auth/register", authController.register);
 router.post("/auth/logout", authController.logout);
-// router.get("/auth/me", authMiddleware, authController.me);
+router.get("/auth/me", authMiddleware, authController.me);
 router.get("/messages", authMiddleware, messageController.getMessages);
 router.post("/create", authMiddleware, messageController.createMessage);
 router.delete("/delete", messageController.deleteMessage);
