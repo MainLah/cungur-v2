@@ -3,7 +3,7 @@ import router from "./routes/api";
 import { connectDb } from "./utils/database";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import docs from "./docs/route";
+// import docs from "./docs/route";
 import cors, { CorsOptions } from "cors";
 
 async function init() {
@@ -35,7 +35,7 @@ async function init() {
     });
   });
   app.use("/api", router);
-  docs(app);
+  // docs(app);
 
   const port = 3000;
 

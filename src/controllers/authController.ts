@@ -78,7 +78,7 @@ export default {
       res
         .cookie("token", token, {
           httpOnly: true,
-          sameSite: "strict",
+          sameSite: "none",
           maxAge: 60 * 60 * 1000,
         })
         .status(200)
