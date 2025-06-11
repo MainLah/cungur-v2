@@ -57,6 +57,7 @@ export default {
 
     try {
       const user = await userModel.findOne({ username: username });
+      console.log("user at login:", user);
       if (!user) {
         return res.status(403).json({
           message: "User not found",
@@ -73,12 +74,14 @@ export default {
 
       const token = generateToken({
         id: user._id,
+        username: user.username,
       });
 
       res
         .cookie("token", token, {
           httpOnly: true,
           sameSite: "none",
+          secure: true,
           maxAge: 60 * 60 * 1000,
         })
         .status(200)
@@ -123,6 +126,7 @@ export default {
       });
     } catch (error) {
       const err = error as unknown as Error;
+
       res.status(403).json({
         message: err.message,
         data: null,

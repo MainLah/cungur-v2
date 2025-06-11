@@ -6,10 +6,26 @@ import UserModel from "../models/userModel";
 export default {
   async getMessages(req: Request, res: Response): Promise<any> {
     try {
-      const user = await UserModel.findOne({
-        _id: (req as IReqUser).user?.id,
-      });
-      const messages = await messageModel.find({ username: user?.username });
+      let username: string | undefined;
+
+      if (req.params.username) {
+        username = req.params.username;
+        if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+          return res.status(400).json({
+            message: "Invalid username",
+            data: [],
+          });
+        }
+      } else if ((req as IReqUser).user?.username) {
+        username = (req as IReqUser).user?.username;
+      } else {
+        return res.status(400).json({
+          message: "No username provided",
+          data: [],
+        });
+      }
+
+      const messages = await messageModel.find({ username: username });
 
       if (messages.length === 0) {
         return res.status(200).json({
@@ -17,6 +33,7 @@ export default {
           data: [],
         });
       } else {
+        console.log(messages, typeof messages);
         res.status(200).json({
           message: "Messages fetched successfully",
           data: messages,
@@ -26,7 +43,7 @@ export default {
       const err = error as unknown as Error;
       res.status(403).json({
         message: err.message,
-        data: null,
+        data: [],
       });
     }
   },
