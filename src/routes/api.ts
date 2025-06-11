@@ -14,4 +14,6 @@ router.post("/create", authMiddleware, messageController.createMessage);
 router.delete("/delete", messageController.deleteMessage);
 router.patch("/update", messageController.updateMessage);
 
+router.get("/messages/:username", messageController.getMessages);
+
 export default router;

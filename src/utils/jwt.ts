@@ -1,14 +1,20 @@
-import { User } from "../models/userModel";
 import { Types } from "mongoose";
 import jwt from "jsonwebtoken";
 import { SALT } from "./env";
 
-export interface IUserToken extends Omit<User, "username" | "password"> {
-  id?: Types.ObjectId;
+export interface IUserToken {
+  id: Types.ObjectId;
+  username?: string;
+  iat?: number;
+  exp?: number;
 }
 
 export const generateToken = (user: IUserToken): string => {
-  const token = jwt.sign(user, SALT, {
+  const payload = {
+    id: user.id.toString(),
+    username: user.username,
+  };
+  const token = jwt.sign(payload, SALT, {
     expiresIn: "1h",
   });
   return token;
