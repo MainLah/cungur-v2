@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import messageModel from "../models/messageModel";
 import { IReqUser } from "../middlewares/authMiddleware";
-import UserModel from "../models/userModel";
 
 export default {
   async getMessages(req: Request, res: Response): Promise<any> {
@@ -33,7 +32,6 @@ export default {
           data: [],
         });
       } else {
-        console.log(messages, typeof messages);
         res.status(200).json({
           message: "Messages fetched successfully",
           data: messages,
@@ -48,9 +46,25 @@ export default {
     }
   },
   async createMessage(req: Request, res: Response): Promise<any> {
-    const user = await UserModel.findOne({
-      _id: (req as IReqUser).user?.id,
-    });
+    let username: string | undefined;
+
+    if (req.params.username) {
+      username = req.params.username;
+      if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+        return res.status(400).json({
+          message: "Invalid username",
+          data: [],
+        });
+      }
+    } else if ((req as IReqUser).user?.username) {
+      username = (req as IReqUser).user?.username;
+    } else {
+      return res.status(400).json({
+        message: "No username provided",
+        data: [],
+      });
+    }
+
     const message = req.body.message;
     const timestamp = new Date().toDateString();
 
@@ -70,10 +84,11 @@ export default {
       }
 
       const newMessage = await messageModel.create({
-        username: user?.username,
+        username,
         message,
         timestamp,
       });
+      console.log(username, message)
       res.status(200).json({
         message: "Message created successfully",
         data: newMessage,
