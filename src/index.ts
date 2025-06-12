@@ -25,6 +25,7 @@ async function init() {
   };
 
   app.use(cors(corsOptions));
+  app.options("*", cors(corsOptions));
   app.use(bodyParser.json());
   app.use(cookieParser());
 
