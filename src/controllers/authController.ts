@@ -57,7 +57,6 @@ export default {
 
     try {
       const user = await userModel.findOne({ username: username });
-      console.log("user at login:", user);
       if (!user) {
         return res.status(403).json({
           message: "User not found",
