@@ -12,7 +12,7 @@ async function init() {
 
   const app = express();
 
-  const whitelist = ["https://cungur.vercel.app"];
+  const whitelist = process.env.CORS_ORIGINS?.split(",") || [];
   const corsOptions: CorsOptions = {
     origin: function (origin, callback) {
       if (!origin || whitelist.indexOf(origin) !== -1) {

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import messageModel from "../models/messageModel";
+import userModel from "../models/userModel";
 import { IReqUser } from "../middlewares/authMiddleware";
 
 export default {
@@ -24,7 +25,15 @@ export default {
         });
       }
 
-      const messages = await messageModel.find({ username: username });
+      const userExists = await userModel.findOne({ username });
+      if (!userExists) {
+        return res.status(403).json({
+          message: "User does not exist",
+          data: null,
+        });
+      }
+
+      const messages = await messageModel.find({ username });
 
       if (messages.length === 0) {
         return res.status(200).json({
@@ -88,7 +97,7 @@ export default {
         message,
         timestamp,
       });
-      console.log(username, message)
+      console.log(username, message);
       res.status(200).json({
         message: "Message created successfully",
         data: newMessage,
