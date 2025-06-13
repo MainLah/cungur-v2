@@ -41,6 +41,7 @@ export default {
           data: [],
         });
       } else {
+        console.log(messages);
         res.status(200).json({
           message: "Messages fetched successfully",
           data: messages,
@@ -97,10 +98,12 @@ export default {
         message,
         timestamp,
       });
-      console.log(username, message);
       res.status(200).json({
         message: "Message created successfully",
-        data: newMessage,
+        data: {
+          id: newMessage._id,
+          ...newMessage.toObject(),
+        },
       });
     } catch (error) {
       const err = error as unknown as Error;
