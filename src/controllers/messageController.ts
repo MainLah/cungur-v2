@@ -41,7 +41,6 @@ export default {
           data: [],
         });
       } else {
-        console.log(messages);
         res.status(200).json({
           message: "Messages fetched successfully",
           data: messages,
