@@ -8,7 +8,6 @@ import cors, { CorsOptions } from "cors";
 
 async function init() {
   const db = await connectDb();
-  console.log(`Database status: ${db}`);
 
   const app = express();
 
@@ -40,9 +39,7 @@ async function init() {
 
   const port = 3000;
 
-  app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-  });
+  app.listen(port);
 }
 
 init();
