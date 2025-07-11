@@ -78,7 +78,7 @@ export default {
     const timestamp = new Date().toDateString();
 
     try {
-      if (message.length === 0 || message.length > 255) {
+      if (message.length === 0 || message.length > 2000) {
         return res.status(403).json({
           message: "Message cannot be empty or more than 255 characters",
           data: null,
